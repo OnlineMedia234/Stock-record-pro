@@ -1,0 +1,188 @@
+<div class="page" data-name="add-product">
+  <div class="navbar">
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="/manager-home/" class="link back" data-force="true">
+          <i class="icon icon-back"></i>
+          <span class="if-not-md">Back</span>
+        </a>
+      </div>
+      <div class="title">Add Product</div>
+    </div>
+  </div>
+  <div class="toolbar tabbar tabbar-labels toolbar-bottom">
+    <div class="toolbar-inner">
+      <a href="/add-product/" class="tab-link tab-link-active">
+        <i class="icon material-icons md-only">add</i>
+        <span class="tabbar-label">Add Product</span>
+      </a>
+      <a href="/update-stock/" class="tab-link">
+        <i class="icon material-icons md-only">add</i>
+        <span class="tabbar-label">Update Stock</span>
+      </a>
+      <a href="/new-category/" class="tab-link">
+        <i class="icon material-icons md-only">file_upload</i>
+        <span class="tabbar-label">Category</span>
+      </a>
+      <a href="/new-user/" class="tab-link">
+        <i class="icon f7-icons if-not-md">cloud_upload_fill</i>
+        <i class="icon material-icons md-only">add</i>
+        <span class="tabbar-label">Add User</span>
+      </a>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="block block-strong">
+      <p>
+        Welcome <span class="manager-name"></span>
+      </p>
+      <h3>Branch: <span class="branch-name"></span></h3>
+
+        <style type="text/css">
+
+            input[type='file'] {
+                display: none;
+            }
+
+            .file-info {
+                font-size: 0.9em;
+            }
+
+            .browse-btn {
+                background: #03A595;
+                color: #fff;
+                min-height: 35px;
+                padding: 10px;
+                border: none;
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
+
+            .browse-btn:hover {
+                background: #4ec0b4;
+            }
+
+            @media (max-width: 300px) {
+                .file-info {
+                    display: block;
+                    margin: 10px 5px;
+                }
+            }
+        </style>
+
+
+
+
+        <form action="" method="post" id="the-up" enctype="multipart/form-data" onsubmit="AJAXSubmit(this); return false;">
+        <div class="list no-hairlines-md">
+          <ul>
+              <li class="item-content">
+                  <div class="item-media">
+                      <i class="material-icons">add_a_photo</i>
+                  </div>
+                  <div class="item-inner">
+
+                          <!--<div class="input-container">-->
+                              <input type="file" accept=".jpg, .jpeg, .png" capture id="real-input" name="file" onchange="AJAXSubmit(document.getElementById('the-up')); return false;">
+                              <input type="hidden" name="upload_preset" value="o4cwansn">
+                              <button class="browse-btn button " type="button">
+                                  Upload File
+                              </button>
+                          <!--</div>-->
+
+                  </div>
+              </li>
+              <li class="item-content">
+                  <div class="item-inner">
+                      <img src="" id="uploaded" width="100">
+                  </div>
+              </li>
+          </ul>
+        </div>
+        </form>
+              <form action="" method="post" id="form-add-prod">
+                  <div class="list no-hairlines-md">
+                      <ul>
+                      <li class="item-content item-input">
+              <div class="item-media">
+                <i class="material-icons">folder</i>
+              </div>
+              <div class="item-inner">
+                <div class="item-title item-floating-label">Product Name</div>
+                <div class="item-input-wrap">
+                  <input name="name" type="text" required validate placeholder="Product Name" id="prod-name" class="input-with-value user-name">
+                    <input type="hidden" id="the-image" name="image">
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+
+              <li class="item-content item-input">
+                  <div class="item-media">
+                      <i class="material-icons">grain</i>
+                  </div>
+                  <div class="item-inner">
+                      <div class="item-title item-floating-label">Selling Price</div>
+                      <div class="item-input-wrap">
+                          <input type="number" name="price" required validate placeholder="Selling Price" id="prod-price" class="input-with-value user-name">
+                          <span class="input-clear-button"></span>
+                      </div>
+                  </div>
+              </li>
+
+
+              <li class="item-content item-input">
+                  <div class="item-media">
+                      <i class="material-icons">folder_o</i>
+                  </div>
+                  <div class="item-inner">
+                      <div class="item-title item-floating-label">Product Description</div>
+                      <div class="item-input-wrap">
+                          <input name="name" type="text" required validate placeholder="Product Description" id="prod-desc" class="input-with-value user-name">
+                          <span class="input-clear-button"></span>
+                      </div>
+                  </div>
+              </li>
+
+              <li class="item-content item-input">
+                  <div class="item-media">
+                      <i class="material-icons">event_note</i>
+                  </div>
+                  <div class="item-inner">
+                      <div class="item-title item-label">Product Category</div>
+                      <div class="item-input-wrap">
+                          <select name="category" required validate  id="prod-cats" class="input-with-value user-name">
+
+                          </select>
+                          <span class="input-clear-button"></span>
+                      </div>
+                  </div>
+              </li>
+              <li class="item-content item-input">
+                  <div class="item-media">
+                      <i class="material-icons">accessibility</i>
+                  </div>
+                  <div class="item-inner">
+                      <div class="item-title item-floating-label">Current Stock</div>
+                      <div class="item-input-wrap">
+                          <input name="stock" type="number" min="1" required validate  id="prod-qty" class="input-with-value user-name">
+                          <span class="input-clear-button"></span>
+                      </div>
+                  </div>
+              </li>
+            <li class="item-content">
+                <input type="hidden" name="branch_id" id="the-branch">
+                <input type="hidden" name="add_product">
+              <button class="button button-fill" type="submit">Add Product</button>
+            </li>
+          </ul>
+        </div>
+        <div class="center hide" id="loader">
+          <div class="preloader color-multi"></div>
+        </div>
+      </form>
+        <div class="block">&nbsp;</div>
+
+    </div>
+  </div>
+</div>

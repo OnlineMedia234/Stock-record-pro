@@ -1,0 +1,101 @@
+<div class="page" data-name="new-user">
+  <div class="navbar">
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a href="/manager-home/" class="link back" data-force="true">
+          <i class="icon icon-back"></i>
+          <span class="if-not-md">Back</span>
+        </a>
+      </div>
+      <div class="title">Add User</div>
+    </div>
+  </div>
+  <div class="toolbar tabbar tabbar-labels toolbar-bottom">
+    <div class="toolbar-inner">
+      <a href="/add-product/" class="tab-link">
+        <i class="icon material-icons md-only">add</i>
+        <span class="tabbar-label">Add Product</span>
+      </a>
+      <a href="/update-stock/" class="tab-link">
+        <i class="icon material-icons md-only">add</i>
+        <span class="tabbar-label">Update Stock</span>
+      </a>
+      <a href="/new-category/" class="tab-link">
+        <i class="icon material-icons md-only">file_upload</i>
+        <span class="tabbar-label">Category</span>
+      </a>
+      <a href="/new-user/" class="tab-link tab-link-active">
+        <i class="icon f7-icons if-not-md">cloud_upload_fill</i>
+        <i class="icon material-icons md-only">add</i>
+        <span class="tabbar-label">Add User</span>
+      </a>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="block block-strong">
+      <p>
+        Welcome <span class="manager-name"></span>
+      </p>
+      <h3>Branch: <span class="branch-name"></span></h3>
+
+
+      <form action="" method="post" id="form-add-user">
+        <div class="list no-hairlines-md">
+          <ul>
+            <li class="item-content item-input">
+              <div class="item-media">
+                <i class="material-icons">person</i>
+              </div>
+              <div class="item-inner">
+                <div class="item-title item-floating-label">Full Name</div>
+                <div class="item-input-wrap">
+                  <input name="name" type="text" required validate placeholder="Full Name" id="user-name" class="input-with-value user-name">
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+
+              <li class="item-content item-input">
+                  <div class="item-media">
+                      <i class="material-icons">phone</i>
+                  </div>
+                  <div class="item-inner">
+                      <div class="item-title item-floating-label">Phone Number</div>
+                      <div class="item-input-wrap">
+                          <input type="text" name="phone" required validate placeholder="Phone Number" id="user-phone" class="input-with-value user-name">
+                          <span class="input-clear-button"></span>
+                      </div>
+                  </div>
+              </li>
+
+              <li class="item-content item-input">
+                  <div class="item-media">
+                      <i class="material-icons">email</i>
+                  </div>
+                  <div class="item-inner">
+                      <div class="item-title item-floating-label">Email Address</div>
+                      <div class="item-input-wrap">
+                          <input type="email" name="email" required validate placeholder="Email Address" id="user-email" class="input-with-value user-name">
+                          <span class="input-clear-button"></span>
+                      </div>
+                  </div>
+              </li>
+            <li class="item-content">
+                <input type="hidden" name="branch_id" id="the-branch">
+                <input type="hidden" name="add_user">
+              <button class="button button-fill" type="submit">Add User</button>
+            </li>
+          </ul>
+        </div>
+        <div class="center hide" id="loader">
+          <div class="preloader color-multi"></div>
+        </div>
+      </form>
+
+
+
+          <div class="block">&nbsp;</div>
+
+    </div>
+  </div>
+</div>

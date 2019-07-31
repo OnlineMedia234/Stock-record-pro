@@ -1,0 +1,52 @@
+<div class="page" data-name="edit-category">
+  <div class="navbar">
+    <div class="navbar-inner sliding">
+      <div class="left">
+          <a href="/manager-home/" class="link back" data-force="true">
+          <i class="icon icon-back"></i>
+          <span class="if-not-md">Back</span>
+        </a>
+      </div>
+      <div class="title">Edit Category</div>
+    </div>
+  </div>
+
+  <div class="page-content">
+    <div class="block block-strong">
+      <p>
+        Welcome <span class="manager-name"></span>
+      </p>
+      <h3>Branch: <span class="branch-name"></span></h3>
+
+
+      <form action="" method="post" id="form-edit-cat">
+        <div class="list no-hairlines-md">
+          <ul>
+            <li class="item-content item-input">
+              <div class="item-media">
+                <i class="material-icons">add_box</i>
+              </div>
+              <div class="item-inner">
+                <div class="item-title item-floating-label">Category Name</div>
+                <div class="item-input-wrap">
+                  <input type="text" required validate placeholder="Category Name" id="category-name" class="input-with-value user-name">
+                  <span class="input-clear-button"></span>
+                </div>
+              </div>
+            </li>
+            <li class="item-content">
+              <button class="button button-fill" type="submit">Update</button>
+            </li>
+          </ul>
+        </div>
+        <div class="center hide" id="loader">
+          <div class="preloader color-multi"></div>
+        </div>
+      </form>
+
+
+          <div class="block">&nbsp;</div>
+
+    </div>
+  </div>
+</div>
