@@ -8,7 +8,7 @@ var supervisor = "OnlineMedia";
 let url = '';
 
 let env,server_upload_url,app_path = '';
-env = "local";
+env = "locals";
 
 let base_url = '';
 
