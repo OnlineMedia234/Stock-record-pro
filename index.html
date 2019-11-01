@@ -16,6 +16,53 @@
   <div id="app">
     <div class="statusbar"></div>
 
+    <div class="panel panel-left panel-cover panel-resizable">
+      <div class="page">
+        <div class="page-content">
+          <div class="block-title">Admin Menu</div>
+
+          <div class="list links-list">
+            <ul>
+              <li>
+                <a href="/add-branch/" class="panel-close">Add Branch</a>
+              </li>
+              <li>
+                <a href="/edit-branch/" class="panel-close">Edit Branch</a>
+              </li>
+              <li>
+                <a href="/all-branches/" class="panel-close">All Branches</a>
+              </li>
+                <li>
+                    <a href="/add-staff/" class="panel-close">Add Staff</a>
+                </li>
+                <li>
+                    <a href="/edit-staff/" class="panel-close">Edit Staff</a>
+                </li>
+                <li>
+                    <a href="/all-staff/" class="panel-close">All Staff</a>
+                </li>
+                <li>
+                    <a href="" class="panel-close link logout" id="logout">Logout</a>
+                </li>
+
+                <!--
+                <li>
+                <a href="/add-branch/" class="panel-close">Add Branch</a>
+              </li>
+              <li>
+                <a href="/edit-branch/" class="panel-close">Edit Branch</a>
+              </li>
+              <li>
+                <a href="/all-branches/" class="panel-close">All Branches</a>
+              </li>
+              -->
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
 
     <div class="view view-main view-init safe-areas" data-master-detail-breakpoint="800" data-url="/">
       <div class="page">
@@ -40,9 +87,9 @@
             <div class="block">
               <p>Login As</p>
               <div class="row">
-                <a href="" class="button col button-raised button-fill">Admin</a>
-                <a href="/manager-login/" class="button col button-raised button-fill">Manager</a>
-                <a href="" class="button col button-raised button-fill">User</a>
+                <a href="/admin-login/" class="button col button-raised button-fill">Admin</a>
+                <a href="/manager-login/" class="button col button-raised button-fill">Staff</a>
+                <a href="/user-login/" class="button col button-raised button-fill">Customer</a>
               </div>
             </div>
 
@@ -50,8 +97,6 @@
           </div>
 
         </div>
-
-
 
 
 
