@@ -27,11 +27,26 @@
 
 
   function updateManager(){
-    if(sessionStorage.getItem("branch_id") == "" || sessionStorage.getItem("branch_id") == null){
+    if(sessionStorage.getItem("user_id") == "" || sessionStorage.getItem("user_id") == null){
         window.location = "index.html";
     }
       $(".manager-name").html(sessionStorage.getItem("name"));
       $(".branch-name").html(sessionStorage.getItem("branch"));
+  }
+
+  function updateCustomer(){
+      if(sessionStorage.getItem("customer_id") == "" || sessionStorage.getItem("customer_id") == null){
+          window.location = "index.html";
+      }
+      $(".customer-name").html(sessionStorage.getItem("name"));
+      $(".branch-name").html(sessionStorage.getItem("branch"));
+  }
+
+  function updateAdmin(){
+      if(sessionStorage.getItem("admin") == "" || sessionStorage.getItem("admin") == null){
+          window.location = "index.html";
+      }
+
   }
 
 
@@ -307,6 +322,177 @@
       }
 
 
+      if(page.name === "user-login"){
+          //console.log("yeah!");
+          $("body").off('click', '.btn-login').on('click', '.btn-login',function(e) {
+              e.preventDefault();
+              var router = this.$router;
+
+              let username = $("#user-email").val();
+              let password = $("#user-phone").val();
+
+              console.log("Username", username, "Password", password);
+
+
+              if (username == "" || password == "") {
+
+                  app.toast.create({
+                      text: 'Please fill all fields',
+                      position: 'center',
+                      closeTimeout: 3000
+                  }).open();
+                  //self.toastIcon.open();
+                  vibration();
+
+                  return false;
+              }
+              $("#signIn-btn").hide();
+              $("#loader").removeClass('hide');
+
+              //ajax login
+              $.ajax({
+                  url: url,
+                  type: 'post',
+                  dataType: 'json',
+                  crossDomain: true,
+                  timeout: 45000,
+                  data: {
+                      'user-login': '',
+                      'username': username,
+                      'password': password
+                  },
+                  success: function(f) {
+                      console.log(f);
+                      if (f.ok == 0) {
+                          app.toast.create({
+                              text: f.msg,
+                              position: 'center',
+                              closeTimeout: 3000
+                          }).open();
+                          vibration();
+                          $("#signIn-btn").show();
+                          $("#loader").addClass('hide');
+                      }else {
+                          //console.log(f.datas);
+                          //return;
+                          let category = JSON.stringify(f.category);
+                          let storeStocks = JSON.stringify(f.stocks);
+                          //var my_auctions = JSON.stringify(f.my_auctions);
+                          //console.log(chats_lists);
+                          sessionStorage.setItem("category",category);
+                          sessionStorage.setItem("customer_id", f.datas['id']);
+                          sessionStorage.setItem("name", f.datas['name']);
+                          sessionStorage.setItem("email", f.datas['email']);
+                          sessionStorage.setItem("phone", f.datas['phone']);
+                          sessionStorage.setItem("branch", f.datas['branch_name']+", "+f.datas['location']);
+                          sessionStorage.setItem("branch_id",f.datas['branch_id']);
+                          sessionStorage.setItem("store_stocks",storeStocks);
+                          sessionStorage.setItem("total_category", f.total_cats);
+                          sessionStorage.setItem("total_stocks", f.total_stocks);
+
+                          //var router = this.$router;
+                          $("#signIn-btn").show();
+                          $("#loader").addClass('hide');
+                          mainView.router.navigate("/user-home/",{});
+                      }
+                  },
+                  error: function(e) {
+                      app.toast.create({
+                          text: 'Network error, please ensure that you have active internet connections!',
+                          position: 'bottom',
+                          closeTimeout: 3000
+                      }).open();
+
+                      vibration();
+                      //console.log(e.responseText);
+                      //alert(e.responseText);
+                      $("#signIn-btn").show();
+                      $("#loader").addClass('hide');
+                  }
+              });
+          });
+      }
+
+      if(page.name === "admin-login"){
+          //console.log("yeah!");
+          $("body").off('click', '.btn-login').on('click', '.btn-login',function(e) {
+              e.preventDefault();
+              var router = this.$router;
+
+              let username = $(".user-name").val();
+              let password = $(".user-password").val();
+
+              //console.log("Username", username, "Password", password);
+
+
+              if (username == "" || password == "") {
+
+                  app.toast.create({
+                      text: 'Please fill all fields',
+                      position: 'center',
+                      closeTimeout: 3000
+                  }).open();
+                  //self.toastIcon.open();
+                  vibration();
+
+                  return false;
+              }
+              $("#signIn-btn").hide();
+              $("#loader").removeClass('hide');
+
+              //ajax login
+              $.ajax({
+                  url: url,
+                  type: 'post',
+                  dataType: 'json',
+                  crossDomain: true,
+                  timeout: 45000,
+                  data: {
+                      'admin-login': '1',
+                      'username': username,
+                      'password': password
+                  },
+                  success: function(f) {
+                      //console.log(f);
+                      if (f.ok == 0) {
+                          app.toast.create({
+                              text: f.msg,
+                              position: 'center',
+                              closeTimeout: 3000
+                          }).open();
+                          vibration();
+                          $("#signIn-btn").show();
+                          $("#loader").addClass('hide');
+                      }else {
+                          //console.log(f.datas);
+                          //return;
+                          sessionStorage.setItem("admin", f.id);
+                          sessionStorage.setItem("stats",JSON.stringify(f.records));
+
+                          //var router = this.$router;
+                          $("#signIn-btn").show();
+                          $("#loader").addClass('hide');
+                          mainView.router.navigate("/admin-home/",{});
+                      }
+                  },
+                  error: function(e) {
+                      app.toast.create({
+                          text: 'Network error, please ensure that you have active internet connections!',
+                          position: 'bottom',
+                          closeTimeout: 3000
+                      }).open();
+
+                      vibration();
+                      //console.log(e.responseText);
+                      //alert(e.responseText);
+                      $("#signIn-btn").show();
+                      $("#loader").addClass('hide');
+                  }
+              });
+          });
+      }
+
+
       if(page.name === "manager-home"){
           updateManager();
           $(".manager-name").html(sessionStorage.getItem("name"));
@@ -322,6 +508,774 @@
                   sessionStorage.clear();
                   window.location = "index.html";
               });
+          });
+      }
+
+
+
+      if(page.name === "user-home"){
+          updateCustomer();
+          $(".manager-name").html(sessionStorage.getItem("name"));
+          $(".branch-name").html(sessionStorage.getItem("branch"));
+          $(".total-categories").html(sessionStorage.getItem(("total_category")));
+          $(".total-items").html(sessionStorage.getItem(("total_stocks")));
+          $(".total-users").html(sessionStorage.getItem(("total_users")));
+          $(".total-staff").html(sessionStorage.getItem(("total_staff")));
+
+
+          $("body").off("click",".logout").on("click",".logout", function (e) {
+              app.dialog.confirm("Are you sure you want to logout?","Logout",function (e) {
+                  sessionStorage.clear();
+                  window.location = "index.html";
+              });
+          });
+      }
+
+      if(page.name === "admin-home"){
+          updateAdmin();
+
+          let records = sessionStorage.getItem("stats");
+          let records_json = JSON.parse(records);
+          //console.log(records_json);
+          /*$(".manager-name").html(sessionStorage.getItem("name"));
+          $(".branch-name").html(sessionStorage.getItem("branch"));
+          $(".total-categories").html(sessionStorage.getItem(("total_category")));
+          $(".total-items").html(sessionStorage.getItem(("total_stocks")));
+          $(".total-users").html(sessionStorage.getItem(("total_users")));
+          $(".total-staff").html(sessionStorage.getItem(("total_staff")));*/
+
+          $(".total-categories").html(records_json.categories);
+          $(".total-items").html(records_json.stocks);
+          $(".total-users").html(records_json.users);
+          $(".total-staff").html(records_json.staff);
+          $(".total-branch").html(records_json.branches);
+          $(".total-in_stock").html(records_json.in_stock);
+          $(".total-out_stock").html(records_json.out_of_stock);
+          $(".total-almost-out").html(records_json.almost_out);
+          //$(".total-branch").html(records_json.branches);
+
+
+
+
+          $("body").off("click",".logout").on("click",".logout", function (e) {
+              app.dialog.confirm("Are you sure you want to logout?","Logout",function (e) {
+                  sessionStorage.clear();
+                  window.location = "index.html";
+              });
+          });
+      }
+
+      if(page.name === "add-branch"){
+          updateAdmin();
+
+          $("body").off('submit', '#form-add-branch').on('submit', '#form-add-branch',function(e) {
+              e.preventDefault();
+              let name = $("#branch-name").val();
+              let location = $("#branch-location").val();
+
+              if (name == "" || location == "") {
+
+                  app.toast.create({
+                      text: 'All fields are required',
+                      position: 'bottom',
+                      closeTimeout: 3000
+                  }).open();
+                  //self.toastIcon.open();
+                  vibration();
+
+                  return false;
+              }
+
+              $("#loader").removeClass("hide");
+
+              $.ajax({
+                  url: url,
+                  type: 'post',
+                  dataType: 'json',
+                  timeout: 45000,
+                  data: {
+                      'name': name,
+                      'location': location,
+                      'add-branch': ''
+                  },
+                  success: function (f) {
+                      $("#loader").addClass('hide');
+                      if(f.ok == 0){
+                          app.toast.create({
+                              text: f.msg,
+                              position: 'bottom',
+                              closeTimeout: 3000
+                          }).open();
+                          //self.toastIcon.open();
+                          vibration();
+                      }else{
+                          $("#branch-name").val('');
+                          $("#branch-location").val();
+                          app.toast.create({
+                              text: f.msg,
+                              position: 'bottom',
+                              closeTimeout: 3000
+                          }).open();
+                          //self.toastIcon.open();
+                          vibration();
+                          let stats = JSON.stringify(f.records);
+                          sessionStorage.setItem("stats",stats);
+                          //display_categories();
+                      }
+                  },
+                  error: function (e) {
+                      $("#loader").addClass('hide');
+                      app.toast.create({
+                          text: 'Network error, please try again!',
+                          position: 'bottom',
+                          closeTimeout: 3000
+                      }).open();
+                      //self.toastIcon.open();
+                      vibration();
+                  }
+              });
+          });
+      }
+
+
+      if(page.name === "edit-branch"){
+          updateAdmin();
+          app.dialog.preloader('Fetching Branch');
+
+          $.ajax({
+             type: 'get',
+             dataType: 'json',
+             data: {
+                 'load-branch': ''
+             },
+              url: url,
+              timeout: 45000,
+              success: function (f) {
+                  app.dialog.close();
+
+                  let records = f.records;
+
+                  let tb = "";
+                  for(let k = 0; k < records.length; k++){
+                      let n = records[k].name;
+                      let i = records[k].id;
+                      let l = records[k].location;
+                      let tr = `<tr><td>`+records[k].name+`</td>`;
+                      tr += `<td>`+records[k].location+`</td>`;
+                      tr += `<td><a href="/editing-branch/?id=`+i+`&name=`+n+`&location=`+l+`">Edit</a> </td></tr>`;
+
+                      tb += tr;
+                  }
+                  //console.log(records);
+
+                  $("#the-branch").html(tb);
+              },
+              error: function (er) {
+                  app.dialog.close();
+              }
+          });
+      }
+
+      if(page.name === "editing-branch"){
+          updateAdmin();
+
+          let p = page.route.query;
+          let name = p.name;
+          let location = p.location;
+          let id = p.id;
+
+          //console.log(name,location,id);
+
+          $("#branch-name").val(name);
+          $("#branch-location").val(location);
+
+
+
+          $("body").off('submit', '#form-add-branch').on('submit', '#form-add-branch',function(e) {
+              e.preventDefault();
+              let name = $("#branch-name").val();
+              let location = $("#branch-location").val();
+
+              if (name == "" || location == "") {
+
+                  app.toast.create({
+                      text: 'All fields are required',
+                      position: 'bottom',
+                      closeTimeout: 3000
+                  }).open();
+                  //self.toastIcon.open();
+                  vibration();
+
+                  return false;
+              }
+
+              $("#loader").removeClass("hide");
+
+              $.ajax({
+                  url: url,
+                  type: 'post',
+                  dataType: 'json',
+                  timeout: 45000,
+                  data: {
+                      'name': name,
+                      'location': location,
+                      'id': id,
+                      'edit-branch': ''
+                  },
+                  success: function (f) {
+                      $("#loader").addClass('hide');
+                      if(f.ok == 0){
+                          app.toast.create({
+                              text: f.msg,
+                              position: 'bottom',
+                              closeTimeout: 3000
+                          }).open();
+                          //self.toastIcon.open();
+                          vibration();
+                      }else{
+                          app.toast.create({
+                              text: f.msg,
+                              position: 'bottom',
+                              closeTimeout: 3000
+                          }).open();
+                          //self.toastIcon.open();
+                          vibration();
+                          let stats = JSON.stringify(f.records);
+                          sessionStorage.setItem("stats",stats);
+                          //display_categories();
+                      }
+                  },
+                  error: function (e) {
+                      $("#loader").addClass('hide');
+                      app.toast.create({
+                          text: 'Network error, please try again!',
+                          position: 'bottom',
+                          closeTimeout: 3000
+                      }).open();
+                      //self.toastIcon.open();
+                      vibration();
+                  }
+              });
+          });
+      }
+
+      if(page.name === "all-branches"){
+          updateAdmin();
+          app.dialog.preloader('Fetching Branch');
+
+          $.ajax({
+              type: 'get',
+              dataType: 'json',
+              data: {
+                  'load-branch': ''
+              },
+              url: url,
+              timeout: 45000,
+              success: function (f) {
+                  app.dialog.close();
+
+                  let records = f.records;
+
+                  let tb = "";
+                  for(let k = 0; k < records.length; k++){
+                      let n = records[k].name;
+                      let i = records[k].id;
+                      let l = records[k].location;
+                      let tr = `<tr><td>`+records[k].name+`</td>`;
+                      tr += `<td>`+records[k].location+`</td>`;
+                      tr += `<td><a href="/view-branch/?id=`+i+`&name=`+n+`&location=`+l+`">View</a> </td></tr>`;
+
+                      tb += tr;
+                  }
+                  //console.log(records);
+
+                  $("#the-branches").html(tb);
+              },
+              error: function (er) {
+                  app.dialog.close();
+              }
+          });
+      }
+
+
+      //view-branch
+
+      if(page.name === "view-branch"){
+          updateAdmin();
+
+          let p = page.route.query;
+          let name = p.name;
+          let location = p.location;
+          let id = p.id;
+
+          //console.log(name,location,id);
+
+          $(".branch-name").html(name);
+          $(".branch-location").html(location);
+
+
+          app.dialog.progress("Fetching branch Information");
+
+          $.ajax({
+             url: url,
+             dataType: 'json',
+             type: 'get',
+             data: {
+                 'fetch_branch_info': '1',
+                 'id' : id
+             },
+              timeout: 45000,
+              success : function (f) {
+                  app.dialog.close();
+
+                  let product = f.stocks;
+                  let users = f.users;
+                  let staff = f.staff;
+
+                  $(".branch-products").html(product.length);
+                  $(".branch-staff").html(staff.length);
+
+
+                  let tr = '';
+                  for(let i = 0; i < users.length; i++){
+                      tr += "<tr><td>"+users[i].name+"</td>";
+                      tr += "<td>"+users[i].email+"</td>";
+                      tr += "<td>"+users[i].phone+"</td>";
+                      tr += "</tr>";
+                  }
+
+                  $("#branch-users").html(tr);
+
+
+
+                  tr = '';
+                  for(let i = 0; i < staff.length; i++){
+                      tr += "<tr><td>"+staff[i].username+"</td>";
+                      tr += "<td>"+staff[i].name+"</td>";
+                      tr += "<td>"+staff[i].email+"</td>";
+                      tr += "</tr>";
+                  }
+
+                  $("#the-branch-staff").html(tr);
+
+                  tr = '';
+
+                  for(let i = 0; i < product.length; i++){
+                      let the_class = "bg-color-blue";
+                      let the_qty = product[i].qty;
+                      if(the_qty == 0){
+                          the_class = "bg-color-red";
+                      }else if(the_qty > 0 && the_qty < 10){
+                          the_class = "bg-color-yellow";
+                      }else{
+                          the_class = "bg-color-green";
+                      }
+                      tr += "<tr class='"+the_class+"' style='color:#fff;'><td>"+product[i].name+"</td>";
+                      tr += "<td>"+product[i].category+"</td>";
+                      tr += "<td>&#8358; "+product[i].price+"</td>";
+                      tr += "<td>"+product[i].qty+"</td>";
+                      tr += "<td>"+product[i].date_updated+"</td>";
+                      tr += "<td>"+product[i].last_user_name+"</td></tr>";
+                  }
+
+                  $("#the-branch-stock").html(tr);
+              },
+              error: function (e) {
+                  app.dialog.close();
+                  create_toast("Network error!, go back and try again!");
+              }
+          });
+
+      }
+
+
+      if(page.name === "add-staff"){
+          updateAdmin();
+
+          app.dialog.progress("Fetching branches");
+
+          $.ajax({
+             url: url,
+             type: 'get',
+             dataType: 'json',
+             data: {
+                 'fetch_branch': '1'
+             },
+              timeout: 45000,
+              error: function (e) {
+                  app.dialog.close();
+                  create_toast("Network error, please go back and try again!");
+              },
+              success: function (f) {
+                  //staff-branch
+                  app.dialog.close();
+                  let records = f.branches;
+
+                  let sel = "";
+                  for(let i = 0; i < records.length; i++){
+                      sel += "<option value='"+records[i].id+"'>"+records[i].name+" ,"+records[i].location+"</option>";
+                  }
+
+                  $("#staff-branch").html(sel);
+              }
+          });
+
+          $("body").off('submit', '#form-add-staff').on('submit', '#form-add-staff',function(e) {
+              e.preventDefault();
+              let name = $("#staff-name").val();
+              let username = $("#staff-username").val();
+              let email = $("#staff-email").val();
+              let branch_id = $("#staff-branch").val();
+              let password = $("#staff-password").val();
+
+              if (name == "" || username == "" || email == "" || branch_id == "" || password == "") {
+
+                  app.toast.create({
+                      text: 'All fields are required',
+                      position: 'bottom',
+                      closeTimeout: 3000
+                  }).open();
+                  //self.toastIcon.open();
+                  vibration();
+
+                  return false;
+              }
+
+              $("#loader").removeClass("hide");
+
+              $.ajax({
+                  url: url,
+                  type: 'post',
+                  dataType: 'json',
+                  timeout: 45000,
+                  data: {
+                      'name': name,
+                      'username': username,
+                      'email': email,
+                      'password': password,
+                      'branch_id': branch_id,
+                      'add-staff': ''
+                  },
+                  success: function (f) {
+                      $("#loader").addClass('hide');
+                      if(f.ok == 0){
+                          app.toast.create({
+                              text: f.msg,
+                              position: 'bottom',
+                              closeTimeout: 3000
+                          }).open();
+                          //self.toastIcon.open();
+                          vibration();
+                      }else{
+                          $("#staff-name, #staff-password, #staff-email, #staff-username").val('');
+                          app.toast.create({
+                              text: f.msg,
+                              position: 'bottom',
+                              closeTimeout: 3000
+                          }).open();
+                          //self.toastIcon.open();
+                          vibration();
+                          let stats = JSON.stringify(f.records);
+                          sessionStorage.setItem("stats",stats);
+                          //display_categories();
+                      }
+                  },
+                  error: function (e) {
+                      $("#loader").addClass('hide');
+                      app.toast.create({
+                          text: 'Network error, please try again!',
+                          position: 'bottom',
+                          closeTimeout: 3000
+                      }).open();
+                      //self.toastIcon.open();
+                      vibration();
+                  }
+              });
+          });
+      }
+
+
+
+
+
+      if(page.name === "edit-staff"){
+          updateAdmin();
+          app.dialog.preloader('Fetching Staff');
+
+          $.ajax({
+              type: 'get',
+              dataType: 'json',
+              data: {
+                  'load-staff': ''
+              },
+              url: url,
+              timeout: 45000,
+              success: function (f) {
+                  app.dialog.close();
+
+                  let records = f.records;
+
+                  let tb = "";
+                  for(let k = 0; k < records.length; k++){
+                      let n = records[k].name;
+                      let i = records[k].id;
+                      let l = records[k].branch_id;
+                      let bn = records[k].branch_name + " "+ records[k].location;
+                      let u = records[k].username;
+                      let e = records[k].email;
+                      let tr = `<tr><td>`+records[k].name+`</td>`;
+                      tr += `<td>`+records[k].username+`</td>`;
+                      tr += `<td>`+bn+`</td>`;
+                      tr += `<td><a href="/editing-staff/?id=`+i+`&name=`+n+`&branch_id=`+l+`&username=`+u+`&email=`+e+`">Edit</a> </td></tr>`;
+
+                      tb += tr;
+                  }
+                  //console.log(records);
+
+                  $("#the-staff-b").html(tb);
+              },
+              error: function (er) {
+                  app.dialog.close();
+              }
+          });
+      }
+
+      if(page.name === "editing-staff"){
+          updateAdmin();
+
+          let p = page.route.query;
+          let name = p.name;
+          let branch = p.branch_id;
+          let email = p.email;
+          let username = p.username;
+          let id = p.id;
+
+
+          $("#staff-name").val(name);
+          $("#staff-username").val(username);
+          $("#staff-email").val(email);
+
+
+          app.dialog.progress("Fetching branches");
+
+          $.ajax({
+              url: url,
+              type: 'get',
+              dataType: 'json',
+              data: {
+                  'fetch_branch': '1'
+              },
+              timeout: 45000,
+              error: function (e) {
+                  app.dialog.close();
+                  create_toast("Network error, please go back and try again!");
+              },
+              success: function (f) {
+                  //staff-branch
+                  app.dialog.close();
+                  let records = f.branches;
+
+                  let sel = "";
+                  for(let i = 0; i < records.length; i++){
+                      sel += "<option value='"+records[i].id+"'>"+records[i].name+" ,"+records[i].location+"</option>";
+                  }
+
+                  $("#staff-branch").html(sel);
+                  $("#staff-branch").val(branch);
+              }
+
+
+          });
+
+          $("body").off('submit', '#form-add-staff').on('submit', '#form-add-staff',function(e) {
+              e.preventDefault();
+              let name = $("#staff-name").val();
+              let username = $("#staff-username").val();
+              let email = $("#staff-email").val();
+              let branch_id = $("#staff-branch").val();
+
+
+              if (name == "" || username == "" || email == "" || branch_id == "") {
+
+                  app.toast.create({
+                      text: 'All fields are required',
+                      position: 'bottom',
+                      closeTimeout: 3000
+                  }).open();
+                  //self.toastIcon.open();
+                  vibration();
+
+                  return false;
+              }
+
+              $("#loader").removeClass("hide");
+
+              $.ajax({
+                  url: url,
+                  type: 'post',
+                  dataType: 'json',
+                  timeout: 45000,
+                  data: {
+                      'name': name,
+                      'username': username,
+                      'email': email,
+                      'branch_id': branch_id,
+                      'id': id,
+                      'edit-staff': ''
+                  },
+                  success: function (f) {
+                      $("#loader").addClass('hide');
+                      if(f.ok == 0){
+                          app.toast.create({
+                              text: f.msg,
+                              position: 'bottom',
+                              closeTimeout: 3000
+                          }).open();
+                          //self.toastIcon.open();
+                          vibration();
+                      }else{
+                          //$("#staff-name, #staff-email, #staff-username").val('');
+                          app.toast.create({
+                              text: f.msg,
+                              position: 'bottom',
+                              closeTimeout: 3000
+                          }).open();
+                          //self.toastIcon.open();
+                          vibration();
+                          let stats = JSON.stringify(f.records);
+                          sessionStorage.setItem("stats",stats);
+                          //display_categories();
+                      }
+                  },
+                  error: function (e) {
+                      $("#loader").addClass('hide');
+                      app.toast.create({
+                          text: 'Network error, please try again!',
+                          position: 'bottom',
+                          closeTimeout: 3000
+                      }).open();
+                      //self.toastIcon.open();
+                      vibration();
+                  }
+              });
+          });
+
+          //console.log(name,location,id);
+
+
+
+
+
+          /*$("body").off('submit', '#form-add-branch').on('submit', '#form-add-branch',function(e) {
+              e.preventDefault();
+              let name = $("#branch-name").val();
+              let location = $("#branch-location").val();
+
+              if (name == "" || location == "") {
+
+                  app.toast.create({
+                      text: 'All fields are required',
+                      position: 'bottom',
+                      closeTimeout: 3000
+                  }).open();
+                  //self.toastIcon.open();
+                  vibration();
+
+                  return false;
+              }
+
+              $("#loader").removeClass("hide");
+
+              $.ajax({
+                  url: url,
+                  type: 'post',
+                  dataType: 'json',
+                  timeout: 45000,
+                  data: {
+                      'name': name,
+                      'location': location,
+                      'id': id,
+                      'edit-branch': ''
+                  },
+                  success: function (f) {
+                      $("#loader").addClass('hide');
+                      if(f.ok == 0){
+                          app.toast.create({
+                              text: f.msg,
+                              position: 'bottom',
+                              closeTimeout: 3000
+                          }).open();
+                          //self.toastIcon.open();
+                          vibration();
+                      }else{
+                          app.toast.create({
+                              text: f.msg,
+                              position: 'bottom',
+                              closeTimeout: 3000
+                          }).open();
+                          //self.toastIcon.open();
+                          vibration();
+                          let stats = JSON.stringify(f.records);
+                          sessionStorage.setItem("stats",stats);
+                          //display_categories();
+                      }
+                  },
+                  error: function (e) {
+                      $("#loader").addClass('hide');
+                      app.toast.create({
+                          text: 'Network error, please try again!',
+                          position: 'bottom',
+                          closeTimeout: 3000
+                      }).open();
+                      //self.toastIcon.open();
+                      vibration();
+                  }
+              });
+          });*/
+      }
+
+      if(page.name === "all-staff"){
+
+
+          updateAdmin();
+          app.dialog.preloader('Fetching Staff');
+
+          $.ajax({
+              type: 'get',
+              dataType: 'json',
+              data: {
+                  'load-staff': ''
+              },
+              url: url,
+              timeout: 45000,
+              success: function (f) {
+                  app.dialog.close();
+
+                  let records = f.records;
+
+                  let tb = "";
+                  for(let k = 0; k < records.length; k++){
+                      let n = records[k].name;
+                      let i = records[k].id;
+                      let l = records[k].branch_id;
+                      let bn = records[k].branch_name + " "+ records[k].location;
+                      let u = records[k].username;
+                      let e = records[k].email;
+                      let tr = `<tr><td>`+records[k].name+`</td>`;
+                      tr += `<td>`+records[k].username+`</td>`;
+                      tr += `<td>`+e+`</td>`;
+                      tr += `<td>`+bn+`</td>`;
+                      tr += `</tr>`;
+
+                      tb += tr;
+                  }
+                  //console.log(records);
+
+                  $("#the-staff-v").html(tb);
+              },
+              error: function (er) {
+                  app.dialog.close();
+              }
           });
       }
 
@@ -412,8 +1366,68 @@
           $("#the-cats").html(tr);
       }
 
+      if(page.name === "all-category"){
+          updateCustomer();
 
-      if(page.name === "edit-category"){
+          let categories = JSON.parse(sessionStorage.getItem("category"));
+
+          let tr = '';
+          for(let i = 0; i < categories.length; i++){
+              tr += "<tr><td>"+categories[i].category+"</td>";
+              tr += "<td><a href='/the-products/?name="+categories[i].category+"&id="+categories[i].id+"'>View</a></td></tr>";
+          }
+
+          $("#the-cats").html(tr);
+      }
+
+      if(page.name === "the-products") {
+          updateCustomer();
+
+          let p = page.route.query;
+          let cat_id = p.id;
+          let cat_name = p.name;
+          $("#the-title").html(cat_name);
+
+
+          let stocks = JSON.parse(sessionStorage.getItem("store_stocks"));
+
+          let div = '';
+          for(let j = 0; j < stocks.length; j++){
+              let cats = stocks[j].cat_id;
+              if(cats != cat_id){
+                  continue;
+              }
+              let prod_id = stocks[j].id;
+              let prod_name = stocks[j].name;
+              let price = stocks[j].price;
+              let qty = stocks[j].qty;
+              let prod_desc = stocks[j].prod_desc;
+              let cat = stocks[j].category;
+              let image = stocks[j].image;
+
+              let img = getImage(image,70);
+              div += '<li><a href="#" class="item-link item-content">';
+              div += '<div class="item-media"><img src="'+img+'" width="70"/></div>';
+              div += '<div class="item-inner"><div class="item-title-row"><div class="item-title">';
+              div += prod_name;
+              div += '</div><div class="item-after">&#8358; '+price+' </div>';
+              div += '</div><div class="item-subtitle">'+cat+'</div>';
+              div += '<div class="item-text">'+prod_desc+'</div></div></a></li>';
+          }
+
+
+          $("#the-products").html(div);
+      }
+
+      if(page.name === "profile"){
+          updateCustomer();
+          $("#fname").html(sessionStorage.getItem("name"));
+          $("#emaila").html(sessionStorage.getItem("email"));
+          $("#phone").html(sessionStorage.getItem("phone"));
+      }
+
+
+       if(page.name === "edit-category"){
           updateManager();
 
           let p = page.route.query;
@@ -510,6 +1524,39 @@
 
               let img = getImage(image,70);
               div += '<li><a href="/edit-product/?id='+prod_id+'&name='+prod_name+'&price='+price+'&qty='+qty+'&prod_desc='+prod_desc+'&cat='+cats+'" class="item-link item-content">';
+              div += '<div class="item-media"><img src="'+img+'" width="70"/></div>';
+              div += '<div class="item-inner"><div class="item-title-row"><div class="item-title">';
+              div += prod_name;
+              div += '</div><div class="item-after">&#8358; '+price+' </div>';
+              div += '</div><div class="item-subtitle">'+cat+'</div>';
+              div += '<div class="item-text">'+prod_desc+'</div></div></a></li>';
+          }
+
+
+          $("#the-products").html(div);
+
+
+      }
+
+
+      if(page.name === "all-products"){
+          updateCustomer();
+
+          let stocks = JSON.parse(sessionStorage.getItem("store_stocks"));
+
+          let div = '';
+          for(let j = 0; j < stocks.length; j++){
+              let prod_id = stocks[j].id;
+              let prod_name = stocks[j].name;
+              let price = stocks[j].price;
+              let qty = stocks[j].qty;
+              let prod_desc = stocks[j].prod_desc;
+              let cat = stocks[j].category;
+              let cats = stocks[j].cat_id;
+              let image = stocks[j].image;
+
+              let img = getImage(image,70);
+              div += '<li><a href="#" class="item-link item-content">';
               div += '<div class="item-media"><img src="'+img+'" width="70"/></div>';
               div += '<div class="item-inner"><div class="item-title-row"><div class="item-title">';
               div += prod_name;
@@ -751,6 +1798,7 @@
           const fileInfo = document.querySelector('.file-info');
           const realInput = document.getElementById('real-input');
           uploadButton.addEventListener('click', () => {
+              console.log("Clicked...");
               realInput.click();
           });
 
@@ -1134,252 +2182,28 @@
 
         }
 
-        if(page.name === "profile"){
-	  	    isLogin();
-	  	    $("#reg-phone").val(sessionStorage.getItem("phone"));
-	  	    $("#reg-name").val(sessionStorage.getItem("name"));
-	  	    $("#reg-username").val(sessionStorage.getItem("username"));
-	  	    $("#reg-email").val(sessionStorage.getItem("email"));
-
-	  	    $(".pname").html(sessionStorage.getItem("name"));
-            $("#updateProfile").on("click",function(e){
-                e.preventDefault();
-                var names = $("#reg-name").val();
-                var phone = $("#reg-phone").val();
-                var password = $("#reg-password").val();
-
-                if((names == "") || (phone == "") ){
-                    var toasts = app.toast.create({
-                        text: 'All fields except password are required',
-                        position: 'center',
-                        closeTimeout: 3000
-                    });
-                    toasts.open();
-                    vibration();
-                    return;
-                }
-
-                app.preloader.show();
-
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    timeout: 30000,
-                    data: {
-                        'update-profile': '',
-                        'names' : names,
-                        'phone': phone,
-                        'password': password,
-                        'user_id': sessionStorage.getItem("user_id")
-                    },
-                    error: function(er){
-                        var toasts = app.toast.create({
-                            text: 'Network error, try again',
-                            position: 'center',
-                            closeTimeout: 3000
-                        });
-                        toasts.open();
-                        app.preloader.hide();
-                    },
-                    success: function(f){
-                        app.preloader.hide();
-                        sessionStorage.setItem("name",names);
-                        sessionStorage.setItem("phone",phone);
 
 
-                        var toasts = app.toast.create({
-                            text: 'Profile Update successfully!',
-                            position: 'center',
-                            closeTimeout: 3000
-                        });
-                        toasts.open();
 
-                    }
-                });
-            });
-        }
-
-
-        if(page.name === "my-auctions"){
-	  	    isLogin();
-	  	    var data = JSON.parse(sessionStorage.getItem("my_auctions"));
-
-            var htmls = "";
-
-            for(var i = 0; i < data.length; i++){
-                var img = server_upload_url+""+app_path+"products/thumb/"+data[i].image;
-                var pimg = server_upload_url+""+app_path+"products/"+data[i].image;
-                var title = data[i].title;
-                var item_desc = data[i].item_desc;
-                var category = data[i].category;
-                var amount = data[i].amount;
-                var price = data[i].price;
-                var end_date = data[i].end_date;
-                var id = data[i].id;
-                htmls += '<li>';
-                htmls += '<a href="/view-bid/?title='+title+'&item_desc='+item_desc+'&category='+category+'&price='+price+'&image='+pimg+'&id='+id+'&amount='+amount+'&end_date='+end_date+'" class="item-link item-content">';
-                htmls += '<div class="item-media data-img-li">';
-                htmls += '<img src="'+img+'" class="img-responsive img-circle" width="70">';
-                htmls += '</div>';
-                htmls += '<div class="item-inner">';
-                htmls += '<div class="item-title">'
-                htmls += '<div class="item-header">'+category+'</div>';
-                htmls += title+'</div>';
-                htmls += '<div class="item-after">'+price+'</div>';
-                htmls += '<div class="item-footer">End At: '+end_date+'</div>';
-                htmls += '</div></div></a></li>';
-            }
-
-            $(".my-auctions").html(htmls);
-
-        }
-
-      if(page.name === "view-bid"){
-          isLogin();
-
-          var p = page.route.query;
-          var amt = parseInt(p.amount);
-          $(".ptitles").html(p.title);
-          $(".bg-imgs").css("background-image","url("+p.image+")");
-          $(".item-descs").html(p.item_desc);
-          $(".item-prices").html(p.price);
-          $(".item-categorys").html(p.category);
-
-          if(p.highest == "null"){
-              $(".highests").html("&#8358; 0");
-              var highest_bid = 0;
-          }else{
-              $(".highests").html("&#8358; "+p.highest);
-              var highest_bid = parseInt(p.highest);
-          }
-
-
-          $(".end-dates").html(p.end_date);
-
-
-            app.dialog.progress("Loading bids submitted...");
-            $.ajax({
-               url: url,
-               type: 'get',
-               dataType: 'json',
-               data: {
-                   'id': p.id,
-                   'view-bids': ''
-               },
-                timeout: 30000,
-                error: function (er) {
-                    app.dialog.close();
-                    create_toast("Network error, try again later!");
-                },
-                success: function (f) {
-                    app.dialog.close();
-                    if(f.total == 0){
-                        create_toast("No bid submitted!");
-                        return;
-                    }
-                    var data = f.bids;
-                    var htmls = "";
-                    for(var i = 0; i < data.length; i++){
-
-                        htmls += '<li>';
-                        htmls += '<a href="" class="item-link item-content">';
-                        htmls += '<div class="item-media data-img-li">';
-                        htmls += '<i class="icon material-icons">person</i>';
-                        htmls += '</div>';
-
-                        htmls += '<div class="item-inner">';
-                        htmls += '<div class="item-title">'
-                        htmls += '<div class="item-header">'+data[i].phone+'</div>';
-                        htmls += data[i].name+'</div>';
-                        htmls += '<div class="item-after">&#8358; '+data[i].amount+'</div>';
-                        htmls += '</div></div></a></li>';
-                    }
-
-                    $(".my-bids-s").html(htmls);
-
-                }
-            });
-
-
-      }
-
-      if(page.name === "bid-won"){
-          isLogin();
-
-          app.preloader.show();
-
-          $.ajax({
-              url: url,
-              type: 'get',
-              dataType: 'json',
-              data: {
-                  'load-won': '',
-                  'user_id': sessionStorage.getItem("user_id")
-              },
-              timeout: 30000,
-              error: function (er) {
-                  app.preloader.hide();
-                  create_toast("Network error...");
-              },
-              success: function (f) {
-                  app.preloader.hide();
-                  var total = f.total;
-                  if(total == 0){
-                      $(".no-item").show();
-                  }else{
-                      var data = f.auctions;
-
-                      var htmls = "";
-
-                      for(var i = 0; i < data.length; i++){
-                          var img = server_upload_url+""+app_path+"products/thumb/"+data[i].image;
-                          var pimg = server_upload_url+""+app_path+"products/"+data[i].image;
-                          var title = data[i].title;
-                          var item_desc = data[i].item_desc;
-                          var category = data[i].category;
-                          var amount = data[i].amount;
-                          var price = data[i].price;
-                          var end_date = data[i].end_date;
-                          var my_bid = data[i].bid;
-                          var highest = data[i].highest;
-                          var id = data[i].id;
-                          htmls += '<li>';
-                          htmls += '<a href="" class="item-link item-content">';
-                          htmls += '<div class="item-media data-img-li">';
-                          htmls += '<img src="'+img+'" class="img-responsive img-circle" width="70">';
-                          htmls += '</div>';
-                          htmls += '<div class="item-inner">';
-                          htmls += '<div class="item-title">'
-                          htmls += '<div class="item-header">'+category+'</div>';
-                          htmls += title+'</div>';
-                          htmls += '<div class="item-after">Base Amount '+price+'</div>';
-                          htmls += '<div class="item-footer">Bid AMount: &#8358; '+highest+'</div>';
-                          htmls += '</div></div></a></li>';
-                      }
-                      $(".my-won").html(htmls);
-                      //parseAuctions(data,".all-auctions");
-                  }
-              }
-          });
-      }
 	    // Code for Services page
     
 	});
 
     $$(document).on('page:reinit', function (e) {
         var page = e.detail;
-        console.log("we are here...");
+        //console.log("we are here...");
 
-        if(page.name === "category"){
-            isLogin();
-
-            var cats = JSON.parse(sessionStorage.getItem("category"));
-            var t = "";
-            for(let i = 0; i < cats.length; i++){
-                t += "<li><a href='/auction-cat/?category="+cats[i].category+"'>"+cats[i].category+"</a></li>";
-            }
-
-            $("#cat-list").html(t);
+        if(page.name === "admin-home"){
+            let records = sessionStorage.getItem("stats");
+            let records_json = JSON.parse(records);
+            $(".total-categories").html(records_json.categories);
+            $(".total-items").html(records_json.stocks);
+            $(".total-users").html(records_json.users);
+            $(".total-staff").html(records_json.staff);
+            $(".total-branch").html(records_json.branches);
+            $(".total-in_stock").html(records_json.in_stock);
+            $(".total-out_stock").html(records_json.out_of_stock);
+            $(".total-almost-out").html(records_json.almost_out);
         }
     });
 

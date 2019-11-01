@@ -66,12 +66,17 @@ var routes = [
     path: '/accordion/',
     url: './pages/accordion.html',
   },
-  {
-    path: '/manager-login/', url: './pages/manager-login.html', name: 'manager-login',
-  },
-  {
-    path: '/manager-home/', url: './pages/manager-home.html', name: 'manager-home',
-  },
+    {
+        path: '/manager-login/', url: './pages/manager-login.html', name: 'manager-login',
+    },
+    {
+        path: '/manager-home/', url: './pages/manager-home.html', name: 'manager-home',
+    },{
+        path: '/user-login/', url: './pages/user-login.html', name: 'user-login',
+    },
+    {
+        path: '/user-home/', url: './pages/user-home.html', name: 'user-home',
+    },
     {
         path: '/new-category/', url: './pages/new-category.html', name: 'new-category',
     },
@@ -85,12 +90,21 @@ var routes = [
         path: '/view-users/', url: './pages/view-users.html', name: 'view-users',
     },
     {
+        path: '/all-products/', url: './pages/all-products.html', name: 'all-products',
+    },
+    {
+        path: '/all-category/', url: './pages/all-category.html', name: 'all-category',
+    },
+    {
         path: '/view-products/', url: './pages/view-products.html', name: 'view-products',
     },
     {
         path: '/edit-product/', url: './pages/edit-product.html', name: 'edit-product',
     },
 
+    {
+        path: '/the-products/', url: './pages/the-products.html', name: 'the-products',
+    },
     {
         path: '/update-stock/', url: './pages/view-products.html', name: 'update-stock',
     },
@@ -99,6 +113,38 @@ var routes = [
     },
     {
         path: '/add-product/', url: './pages/new-product.html', name: 'add-product',
+    },
+    {
+      path: '/my-profile/', url: './pages/profile.html', name: 'profile',
+    },
+    {
+        path: '/admin-login/', url: './pages/admin-login.html', name: 'admin-login',
+    },{
+        path: '/admin-home/', url: './pages/admin-home.html', name: 'admin-home',
+    },
+    {
+        path: '/add-branch/', url: './pages/add-branch.html', name: 'add-branch',
+    },{
+        path: '/all-branches/', url: './pages/all-branches.html', name: 'add-branches',
+    },
+    {
+        path: '/edit-branch/', url: './pages/edit-branch.html', name: 'edit-branch',
+    },
+    {
+        path: '/editing-branch/', url: './pages/editing-branch.html', name: 'editing-branch',
+    },{
+        path: '/view-branch/', url: './pages/view-branch.html', name: 'view-branch',
+    },
+    {
+        path: '/add-staff/', url: './pages/add-staff.html', name: 'add-staff',
+    },{
+        path: '/all-staff/', url: './pages/all-staff.html', name: 'add-staff',
+    },
+    {
+        path: '/edit-staff/', url: './pages/edit-staff.html', name: 'edit-staff',
+    },
+    {
+        path: '/editing-staff/', url: './pages/editing-staff.html', name: 'editing-staff',
     },
     //
   {
@@ -317,84 +363,7 @@ var routes = [
     path: '/subnavbar-title/',
     url: './pages/subnavbar-title.html',
   },
-  {
-    path: '/swiper/',
-    url: './pages/swiper.html',
-    routes: [
-      {
-        path: 'swiper-horizontal/',
-        url: './pages/swiper-horizontal.html',
-      },
-      {
-        path: 'swiper-vertical/',
-        url: './pages/swiper-vertical.html',
-      },
-      {
-        path: 'swiper-space-between/',
-        url: './pages/swiper-space-between.html',
-      },
-      {
-        path: 'swiper-multiple/',
-        url: './pages/swiper-multiple.html',
-      },
-      {
-        path: 'swiper-nested/',
-        url: './pages/swiper-nested.html',
-      },
-      {
-        path: 'swiper-loop/',
-        url: './pages/swiper-loop.html',
-      },
-      {
-        path: 'swiper-3d-cube/',
-        url: './pages/swiper-3d-cube.html',
-      },
-      {
-        path: 'swiper-3d-coverflow/',
-        url: './pages/swiper-3d-coverflow.html',
-      },
-      {
-        path: 'swiper-3d-flip/',
-        url: './pages/swiper-3d-flip.html',
-      },
-      {
-        path: 'swiper-fade/',
-        url: './pages/swiper-fade.html',
-      },
-      {
-        path: 'swiper-scrollbar/',
-        url: './pages/swiper-scrollbar.html',
-      },
-      {
-        path: 'swiper-gallery/',
-        componentUrl: './pages/swiper-gallery.html',
-      },
-      {
-        path: 'swiper-custom-controls/',
-        url: './pages/swiper-custom-controls.html',
-      },
-      {
-        path: 'swiper-parallax/',
-        url: './pages/swiper-parallax.html',
-      },
-      {
-        path: 'swiper-lazy/',
-        url: './pages/swiper-lazy.html',
-      },
-      {
-        path: 'swiper-pagination-progress/',
-        url: './pages/swiper-pagination-progress.html',
-      },
-      {
-        path: 'swiper-pagination-fraction/',
-        url: './pages/swiper-pagination-fraction.html',
-      },
-      {
-        path: 'swiper-zoom/',
-        url: './pages/swiper-zoom.html',
-      },
-    ],
-  },
+
   {
     path: '/swipeout/',
     componentUrl: './pages/swipeout.html',
@@ -566,6 +535,6 @@ var routes = [
   // Default route (404 page). MUST BE THE LAST
   {
     path: '(.*)',
-    url: './pages/404.html',
+    url: './index.html',
   },
 ];
