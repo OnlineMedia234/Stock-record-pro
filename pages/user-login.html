@@ -1,4 +1,4 @@
-<div class="page" data-name="manager-login">
+<div class="page" data-name="user-login">
   <div class="navbar">
     <div class="navbar-inner sliding">
       <div class="left">
@@ -7,7 +7,7 @@
           <span class="if-not-md">Back</span>
         </a>
       </div>
-      <div class="title">Staff Login</div>
+      <div class="title">Customer Login</div>
     </div>
   </div>
   <div class="page-content">
@@ -21,12 +21,12 @@
           <ul>
             <li class="item-content item-input">
               <div class="item-media">
-                <i class="f7-icons">person</i>
+                <i class="f7-icons">email</i>
               </div>
               <div class="item-inner">
-                <div class="item-title item-floating-label">Username</div>
+                <div class="item-title item-floating-label">Email Address</div>
                 <div class="item-input-wrap">
-                  <input type="text" required validate placeholder="Username" id="user-name" class="input-with-value user-name">
+                  <input type="email" required validate placeholder="Email Address" id="user-email" class="input-with-value user-name">
                   <span class="input-clear-button"></span>
                 </div>
               </div>
@@ -36,9 +36,9 @@
                 <i class="f7-icons">lock</i>
               </div>
               <div class="item-inner">
-                <div class="item-title item-floating-label">Password</div>
+                <div class="item-title item-floating-label">Phone Number</div>
                 <div class="item-input-wrap">
-                  <input type="password" placeholder="Your password" required validate id="user-password" class="user-password">
+                  <input type="tel" placeholder="Your Phone Number" required validate id="user-phone" class="user-password">
                   <span class="input-clear-button"></span>
                 </div>
               </div>
@@ -67,7 +67,7 @@
 
               <div class="col-25">&nbsp;</div>
             </div>
-            <a href="/forgot-password/">Forgot Password?</a>
+            <a class="hide" href="/forgot-password/">Forgot Password?</a>
           </div>
           <div class="block-footer">&nbsp;</div>
         </div>

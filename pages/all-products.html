@@ -1,0 +1,58 @@
+<div class="page" data-name="all-products">
+  <div class="navbar">
+    <div class="navbar-inner sliding">
+      <div class="left">
+          <a href="/user-home/" class="link back" data-force="true">
+          <i class="icon icon-back"></i>
+          <span class="if-not-md">Back</span>
+        </a>
+      </div>
+      <div class="title sliding">All Products</div>
+
+
+        <div class="right">
+            <a class="link icon-only searchbar-enable" data-searchbar=".searchbar-demo">
+                <i class="icon f7-icons if-not-md">search</i>
+                <i class="icon material-icons md-only">search</i>
+            </a>
+        </div>
+        <form data-search-container=".search-list" data-search-in=".item-title" class="searchbar searchbar-expandable searchbar-demo searchbar-init">
+            <div class="searchbar-inner">
+                <div class="searchbar-input-wrap">
+                    <input type="search" placeholder="Search"/>
+                    <i class="searchbar-icon"></i>
+                    <span class="input-clear-button"></span>
+                </div>
+                <span class="searchbar-disable-button if-not-aurora">Cancel</span>
+            </div>
+        </form>
+    </div>
+  </div>
+
+  <div class="page-content">
+    <div class="block block-strong">
+      <p>
+        Welcome <span class="customer-name"></span>
+      </p>
+      <h3><span class="branch-name"></span> Branch</h3>
+
+
+        <div class="searchbar-backdrop"></div>
+        <div class="list simple-list searchbar-not-found">
+            <ul>
+                <li>Nothing found</li>
+            </ul>
+        </div>
+
+        <div class="list search-list searchbar-found media-list">
+            <ul id="the-products">
+
+            </ul>
+        </div>
+
+
+          <div class="block">&nbsp;</div>
+
+    </div>
+  </div>
+</div>
