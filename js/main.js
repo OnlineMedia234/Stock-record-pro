@@ -59,13 +59,13 @@
   }
 
 
-  function doit(type, id, fn, dl) {
+  /*function doit(type, id, fn, dl) {
       var elt = document.getElementById(id);
       var wb = XLSX.utils.table_to_book(elt, {sheet:"Sheet 1"});
       return dl ?
           XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) :
           XLSX.writeFile(wb, fn || ('Vanguard.' + (type || 'xlsx')));
-  }
+  }*/
 
 
 
@@ -807,10 +807,10 @@
           });
 
           $("body").off('click', '#export-branch').on('click', '#export-branch',function(e) {
-              //let tmp_url = base_url+"/exports/all_branches.pdf";
-              //window.open(tmp_url);
+              let tmp_url = base_url+"/exports/all_branches.xls";
+              window.open(tmp_url);
 
-              doit('xlsx', 'all-the-branches');
+              //doit('xlsx', 'all-the-branches');
           });
       }
 
@@ -906,24 +906,26 @@
           });
 
           $("body").off('click', '#export-staffs').on('click', '#export-staffs',function(e) {
-              //let tmp_url = base_url+"/exports/all_branches.pdf";
-              //window.open(tmp_url);
+              let tmp_url = base_url+"/exports/branch_staff.php?id="+id;
+              window.open(tmp_url);
 
-              doit('xlsx', 'staff-table');
+              //doit('xlsx', 'staff-table');
           });
 
           $("body").off('click', '#export-stock').on('click', '#export-stock',function(e) {
               //let tmp_url = base_url+"/exports/all_branches.pdf";
               //window.open(tmp_url);
 
-              doit('xlsx', 'stock-table');
+              let tmp_url = base_url+"/exports/branch_stock.php?id="+id;
+              window.open(tmp_url);
           });
 
           $("body").off('click', '#export-user').on('click', '#export-user',function(e) {
               //let tmp_url = base_url+"/exports/all_branches.pdf";
               //window.open(tmp_url);
 
-              doit('xlsx', 'user-table');
+              let tmp_url = base_url+"/exports/branch_user.php?id="+id;
+              window.open(tmp_url);
           });
 
       }
@@ -1323,7 +1325,10 @@
               //let tmp_url = base_url+"/exports/all_branches.pdf";
               //window.open(tmp_url);
 
-              doit('xlsx', 'all-the-staff');
+              let tmp_url = base_url+"/exports/all_staff.xls";
+              window.open(tmp_url);
+
+              //doit('xlsx', 'all-the-staff');
           });
       }
 
