@@ -59,6 +59,15 @@
   }
 
 
+  function doit(type, id, fn, dl) {
+      var elt = document.getElementById(id);
+      var wb = XLSX.utils.table_to_book(elt, {sheet:"Sheet 1"});
+      return dl ?
+          XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) :
+          XLSX.writeFile(wb, fn || ('Vanguard.' + (type || 'xlsx')));
+  }
+
+
 
 
 
@@ -790,10 +799,18 @@
                   //console.log(records);
 
                   $("#the-branches").html(tb);
+                  $("#export-branch").removeClass("disabled").removeAttr("disabled");
               },
               error: function (er) {
                   app.dialog.close();
               }
+          });
+
+          $("body").off('click', '#export-branch').on('click', '#export-branch',function(e) {
+              //let tmp_url = base_url+"/exports/all_branches.pdf";
+              //window.open(tmp_url);
+
+              doit('xlsx', 'all-the-branches');
           });
       }
 
@@ -879,11 +896,34 @@
                   }
 
                   $("#the-branch-stock").html(tr);
+
+                  $("#export-user, #export-stock, #export-staffs").removeClass("disabled").removeAttr("disabled");
               },
               error: function (e) {
                   app.dialog.close();
                   create_toast("Network error!, go back and try again!");
               }
+          });
+
+          $("body").off('click', '#export-staffs').on('click', '#export-staffs',function(e) {
+              //let tmp_url = base_url+"/exports/all_branches.pdf";
+              //window.open(tmp_url);
+
+              doit('xlsx', 'staff-table');
+          });
+
+          $("body").off('click', '#export-stock').on('click', '#export-stock',function(e) {
+              //let tmp_url = base_url+"/exports/all_branches.pdf";
+              //window.open(tmp_url);
+
+              doit('xlsx', 'stock-table');
+          });
+
+          $("body").off('click', '#export-user').on('click', '#export-user',function(e) {
+              //let tmp_url = base_url+"/exports/all_branches.pdf";
+              //window.open(tmp_url);
+
+              doit('xlsx', 'user-table');
           });
 
       }
@@ -1272,10 +1312,18 @@
                   //console.log(records);
 
                   $("#the-staff-v").html(tb);
+                  $("#export-staff").removeClass("disabled").removeAttr("disabled");
               },
               error: function (er) {
                   app.dialog.close();
               }
+          });
+
+          $("body").off('click', '#export-staff').on('click', '#export-staff',function(e) {
+              //let tmp_url = base_url+"/exports/all_branches.pdf";
+              //window.open(tmp_url);
+
+              doit('xlsx', 'all-the-staff');
           });
       }
 
