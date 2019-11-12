@@ -51,7 +51,7 @@
 
       <h3 class="text-align-center">Branch Staff</h3>
       <div class="card data-table">
-        <table>
+        <table id="staff-table">
           <thead>
             <tr>
               <th>Username</th>
@@ -65,10 +65,14 @@
         </table>
       </div>
 
+      <div class="block">
+        <button type="button" disabled id="export-staffs" class="button button-fill disabled">Export Branch Staff</button>
+      </div>
+
 
       <h3 class="text-align-center">Branch Stock</h3>
       <div class="card data-table">
-        <table>
+        <table id="stock-table">
           <thead>
           <tr>
             <th>Name</th>
@@ -85,9 +89,13 @@
         </table>
       </div>
 
+      <div class="block">
+        <button type="button" disabled id="export-stock" class="button button-fill disabled">Export Branch Stock</button>
+      </div>
+
       <h3 class="text-align-center">Branch Customer</h3>
       <div class="card data-table">
-        <table>
+        <table id="user-table">
           <thead>
           <tr>
             <th>Name</th>
@@ -99,6 +107,10 @@
 
           </tbody>
         </table>
+      </div>
+
+      <div class="block">
+        <button type="button" disabled id="export-user" class="button button-fill disabled">Export Branch Customers</button>
       </div>
 
           <div class="block">&nbsp;</div>
